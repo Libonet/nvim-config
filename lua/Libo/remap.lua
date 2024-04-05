@@ -38,7 +38,7 @@ keymap("n", "<S-l>", ":bnext<CR>", opts)
 keymap("n", "<S-h>", ":bprevious<CR>", opts)
 
 -- Insert --
--- Press jk fast to enter (can also use <C-[>)
+-- Press jk fast to enter normal mode (can also use <C-[>)
 -- keymap("i","jk", "<ESC>", opts)
 
 -- Visual --
