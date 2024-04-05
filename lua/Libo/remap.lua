@@ -25,7 +25,8 @@ keymap("n", "<C-j>", "<C-w>j", opts)
 keymap("n", "<C-k>", "<C-w>k", opts)
 keymap("n", "<C-l>", "<C-w>l", opts)
 
-vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
+-- Using Neotree
+vim.keymap.set("n", "<C-n>", ':Neotree filesystem reveal left toggle<CR>')
 
 -- Resize with arrows
 keymap("n", "<C-Up>", ":resize +2<CR>", opts)
@@ -58,7 +59,7 @@ keymap("x", "K", ":move '<-2<CR>gv-gv", opts)
 keymap("x", "<A-j>", ":move '>+1<CR>gv-gv", opts)
 keymap("x", "<A-k>", ":move '<-2<CR>gv-gv", opts)
 
--- Paste over text without copying the deleted text
-keymap("x", "<leader>p", "\"_dp", opts)
+-- Paste over text without copying the deleted text (This can be done with P)
+-- keymap("x", "<leader>p", "\"_dp", opts)
 
 
