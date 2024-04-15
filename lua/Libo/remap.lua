@@ -1,6 +1,6 @@
 local opts = { noremap = true, silent = true }
 
-local term_opts = { silent = true }
+-- local term_opts = { silent = true }
 
 -- Shorten function name
 local keymap = vim.api.nvim_set_keymap
@@ -19,6 +19,9 @@ vim.g.maplocalleader = " "
 --   command_mode = "c"
 
 -- Normal --
+-- Search and replace word under cursor
+keymap("n", "<F2>", ":%s/<C-r><C-w>/gc<C-f>$F/i", opts)
+
 -- Better window navigation
 keymap("n", "<C-h>", "<C-w>h", opts)
 keymap("n", "<C-j>", "<C-w>j", opts)
