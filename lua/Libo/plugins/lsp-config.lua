@@ -27,11 +27,13 @@ return {
 			})
 			lspconfig.hls.setup({
 				capabilities = capabilities,
+        filetypes = { 'haskell', 'lhaskell', 'cabal' },
 			})
 
 			vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
 			vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
 			vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, {})
+      vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, {})
 
 			local bufopts = { noremap = true, silent = true, buffer = bufnr }
 			vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, bufopts)
