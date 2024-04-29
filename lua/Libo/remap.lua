@@ -10,6 +10,12 @@ keymap("", "<Space>", "<Nop>", opts)
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
+-- copying to system clipboard
+keymap("v", "<leader>y", "\"+y", opts)
+keymap("n", "<leader>y", "\"+y", opts)
+keymap("v", "<leader>p", "\"+p", opts)
+keymap("n", "<leader>p", "\"+p", opts)
+
 -- Modes
 --   normal_mode = "n",
 --   insert_mdoe = "i",

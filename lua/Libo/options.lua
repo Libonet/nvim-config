@@ -1,7 +1,7 @@
 -- : help options
 local options = {
   backup = false,                          -- creates a backup file
-  clipboard = "unnamedplus",               -- allows neovim to access the system clipboard
+--  clipboard = "unnamedplus",             -- allows neovim to access the system clipboard
   cmdheight = 2,                           -- more space in the neovim command line for displaying messages
   completeopt = { "menuone", "noselect" }, -- mostly just for cmp
   conceallevel = 0,                        -- so that `` is visible in markdown files
@@ -15,7 +15,7 @@ local options = {
   showtabline = 2,                         -- always show tabs
   smartcase = true,                        -- smart case
   autoindent = true,                       -- make indent the same as last line
-  smartindent = true,                      -- make indenting smarter again
+  smartindent = false,                      -- make indenting smarter again
   splitbelow = true,                       -- force all horizontal splits to go below current window
   splitright = true,                       -- force all vertical splits to go to the right of current window
   swapfile = true,                         -- creates a swapfile
