@@ -17,7 +17,7 @@ require("lazy").setup({
 	{ import = "Libo.plugins" },
 }, {
 	install = {
-		colorscheme = { "catppuccin" },
+		colorscheme = { "kanagawa-wave" },
 	},
 	checker = {
 		enabled = true,
