@@ -1,9 +1,12 @@
 return {
   'echasnovski/mini.nvim',
+  keys = {
+    { "<C-n>", ":lua MiniFiles.open()<CR>", desc = "mini-files"},
+  },
   version = false,
 
   config = function ()
-    vim.keymap.set("n", "<C-n>", ":lua MiniFiles.open()<CR>")
+--    vim.keymap.set("n", "<C-n>", ":lua MiniFiles.open()<CR>")
 
     local mini = require('mini.files')
 

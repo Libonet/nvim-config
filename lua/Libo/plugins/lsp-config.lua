@@ -1,12 +1,14 @@
 return {
 	{
 		"williamboman/mason.nvim",
+    lazy = true,
 		config = function()
 			require("mason").setup()
 		end,
 	},
 	{
 		"williamboman/mason-lspconfig.nvim",
+    lazy = true,
 		config = function()
 			require("mason-lspconfig").setup({
 				ensure_installed = { "lua_ls", "clangd" },
@@ -15,6 +17,7 @@ return {
 	},
 	{
 		"neovim/nvim-lspconfig",
+    lazy = true,
 		config = function()
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
@@ -23,6 +26,10 @@ return {
 				capabilities = capabilities,
 			})
 			lspconfig.clangd.setup({
+        cmd = {
+          vim.fn.stdpath("data") .. "/mason/bin/clangd",
+		      "--background-index", "--cross-file-rename", "--header-insertion=never"
+	      },
 				capabilities = capabilities,
 			})
 			lspconfig.hls.setup({
