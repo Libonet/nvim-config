@@ -1,23 +1,23 @@
 return {
 	{
 		"hrsh7th/cmp-nvim-lsp",
-    lazy = true,
+		event = { "BufReadPre", "BufNewFile" },
 	},
-  {
+	{
 		"L3MON4D3/LuaSnip",
-    lazy = true,
+		event = { "BufReadPre", "BufNewFile" },
 		dependencies = {
 			"saadparwaiz1/cmp_luasnip",
 			"rafamadriz/friendly-snippets",
 		},
-      -- follow latest release.
-      version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
-      -- install jsregexp (optional!).
-      build = "make install_jsregexp"
+		-- follow latest release.
+		version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
+		-- install jsregexp (optional!).
+		build = "make install_jsregexp",
 	},
 	{
 		"hrsh7th/nvim-cmp",
-    event = "InsertEnter",
+		event = { "BufReadPre", "BufNewFile" },
 		dependencies = {
 			"hrsh7th/cmp-buffer",
 			"hrsh7th/cmp-path",

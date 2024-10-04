@@ -1,14 +1,13 @@
 return {
 	{
 		"williamboman/mason.nvim",
-    lazy = true,
 		config = function()
 			require("mason").setup()
 		end,
 	},
 	{
 		"williamboman/mason-lspconfig.nvim",
-    lazy = true,
+    event = { 'BufReadPre', 'BufNewFile' },
 		config = function()
 			require("mason-lspconfig").setup({
 				ensure_installed = { "lua_ls", "clangd" },
@@ -17,7 +16,7 @@ return {
 	},
 	{
 		"neovim/nvim-lspconfig",
-    lazy = true,
+    event = { 'BufReadPre', 'BufNewFile' },
 		config = function()
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
@@ -33,9 +32,12 @@ return {
 				capabilities = capabilities,
 			})
 			lspconfig.hls.setup({
-				capabilities = capabilities,
         filetypes = { 'haskell', 'lhaskell', 'cabal' },
 			})
+      lspconfig.elp.setup({
+        capabilities = capabilities,
+        filetypes = { 'erl' },
+      })
 
 			vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
 			vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
