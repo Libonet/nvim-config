@@ -10,7 +10,7 @@ return {
     event = { 'BufReadPre', 'BufNewFile' },
 		config = function()
 			require("mason-lspconfig").setup({
-				ensure_installed = { "lua_ls", "clangd" },
+				ensure_installed = { "lua_ls", "clangd", "pyright" },
 			})
 		end,
 	},
@@ -21,6 +21,7 @@ return {
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 			local lspconfig = require("lspconfig")
+
 			lspconfig.lua_ls.setup({
 				capabilities = capabilities,
 			})
@@ -38,10 +39,12 @@ return {
         capabilities = capabilities,
         filetypes = { 'erl' },
       })
+      lspconfig.pyright.setup({})
 
 			vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
 			vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
 			vim.keymap.set("n", "gD", vim.lsp.buf.declaration, {})
+      vim.keymap.set("n", "gI", vim.lsp.buf.implementation, {})
 			vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, {})
       vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, {})
 
