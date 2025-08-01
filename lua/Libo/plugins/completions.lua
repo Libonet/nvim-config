@@ -1,139 +1,55 @@
 return {
 	{
-		"hrsh7th/cmp-nvim-lsp",
-		event = { "BufReadPre", "BufNewFile" },
-	},
-	{
-		"L3MON4D3/LuaSnip",
-		event = { "BufReadPre", "BufNewFile" },
-		dependencies = {
-			"saadparwaiz1/cmp_luasnip",
-			"rafamadriz/friendly-snippets",
-		},
-		-- follow latest release.
-		version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
-		-- install jsregexp (optional!).
-		build = "make install_jsregexp",
-	},
-	{
-		"hrsh7th/nvim-cmp",
-		event = { "BufReadPre", "BufNewFile" },
-		dependencies = {
-			"hrsh7th/cmp-buffer",
-			"hrsh7th/cmp-path",
-		},
-		config = function()
-			local cmp = require("cmp")
-			require("luasnip.loaders.from_vscode").lazy_load()
+      'saghen/blink.cmp',
+      -- optional: provides snippets for the snippet source
+      dependencies = { 'rafamadriz/friendly-snippets' },
 
-			local luasnip = require("luasnip")
+      -- use a release tag to download pre-built binaries
+      version = '1.*',
+      -- AND/OR build from source, requires nightly: https://rust-lang.github.io/rustup/concepts/channels.html#working-with-nightly-rust
+      -- build = 'cargo build --release',
+      -- If you use nix, you can build from source using latest nightly rust with:
+      -- build = 'nix run .#build-plugin',
 
-			cmp.setup({
-				experimental = {
-					ghost_text = true,
-				},
-				snippet = {
-					-- REQUIRED - you must specify a snippet engine
-					expand = function(args)
-						-- vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-						luasnip.lsp_expand(args.body) -- For `luasnip` users.
-						-- require('snippy').expand_snippet(args.body) -- For `snippy` users.
-						-- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
-						-- vim.snippet.expand(args.body) -- For native neovim snippets (Neovim v0.10+)
-					end,
-				},
-				window = {
-					completion = cmp.config.window.bordered(),
-					documentation = cmp.config.window.bordered(),
-				},
-        formatting = {
-            fields = { "abbr", "menu", "kind" },
-            format = function(entry, item)
-                -- Define menu shorthand for different completion sources.
-                local menu_icon = {
-                    nvim_lsp = "NLSP",
-                    nvim_lua = "NLUA",
-                    luasnip  = "LSNP",
-                    buffer   = "BUFF",
-                    path     = "PATH",
-                }
-                -- Set the menu "icon" to the shorthand for each completion source.
-                item.menu = menu_icon[entry.source.name]
+      ---@module 'blink.cmp'
+      ---@type blink.cmp.Config
+      opts = {
+        -- 'default' (recommended) for mappings similar to built-in completions (C-y to accept)
+        -- 'super-tab' for mappings similar to vscode (tab to accept)
+        -- 'enter' for enter to accept
+        -- 'none' for no mappings
+        --
+        -- All presets have the following mappings:
+        -- C-space: Open menu or open docs if already open
+        -- C-n/C-p or Up/Down: Select next/previous item
+        -- C-e: Hide menu
+        -- C-k: Toggle signature help (if signature.enabled = true)
+        --
+        -- See :h blink-cmp-config-keymap for defining your own keymap
+        keymap = { preset = 'enter' },
 
-                -- Set the fixed width of the completion menu to 60 characters.
-                -- fixed_width = 20
-
-                -- Set 'fixed_width' to false if not provided.
-                fixed_width = fixed_width or false
-
-                -- Get the completion entry text shown in the completion window.
-                local content = item.abbr
-
-                -- Set the fixed completion window width.
-                if fixed_width then
-                    vim.o.pumwidth = fixed_width
-                end
-
-                -- Get the width of the current window.
-                local win_width = vim.api.nvim_win_get_width(0)
-
-                -- Set the max content width based on either: 'fixed_width'
-                -- or a percentage of the window width, in this case 20%.
-                -- We subtract 10 from 'fixed_width' to leave room for 'kind' fields.
-                local max_content_width = fixed_width and fixed_width - 10 or math.floor(win_width * 0.2)
-
-                -- Truncate the completion entry text if it's longer than the
-                -- max content width. We subtract 3 from the max content width
-                -- to account for the "..." that will be appended to it.
-                if #content > max_content_width then
-                    item.abbr = vim.fn.strcharpart(content, 0, max_content_width - 3) .. "..."
-                else
-                    item.abbr = content .. (" "):rep(max_content_width - #content)
-                end
-                return item
-            end,
+        appearance = {
+          -- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
+          -- Adjusts spacing to ensure icons are aligned
+          nerd_font_variant = 'mono'
         },
-				mapping = cmp.mapping.preset.insert({
-					["<C-b>"] = cmp.mapping.scroll_docs(-4),
-					["<C-f>"] = cmp.mapping.scroll_docs(4),
-					["<C-Space>"] = cmp.mapping.complete(),
-					["<C-e>"] = cmp.mapping.abort(),
-					["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-					["<Tab>"] = cmp.mapping(function(fallback)
-                        if luasnip.locally_jumpable(1) then
-							luasnip.jump(1)
-						elseif cmp.visible() then
-							cmp.select_next_item()
-							if #cmp.get_entries() == 1 then
-								cmp.confirm()
-							end
-					 	else
-							fallback()
-						end
-					end, { "i", "s" }),
 
-					["<S-Tab>"] = cmp.mapping(function(fallback)
-						if luasnip.locally_jumpable(-1) then
-							luasnip.jump(-1)
-						elseif cmp.visible() then
-							cmp.select_prev_item()
-						else
-							fallback()
-						end
-					end, { "i", "s" }),
-				}),
+        -- (Default) Only show the documentation popup when manually triggered
+        completion = { documentation = { auto_show = false } },
 
-				sources = cmp.config.sources({
-					{ name = "nvim_lsp" },
-					-- { name = "vsnip" }, -- For vsnip users.
-					{ name = "luasnip" }, -- For luasnip users.
-					-- { name = 'ultisnips' }, -- For ultisnips users.
-					-- { name = 'snippy' }, -- For snippy users.
-				}, {
-					{ name = "buffer" },
-					{ name = "path" },
-				}),
-			})
-		end,
-	},
+        -- Default list of enabled providers defined so that you can extend it
+        -- elsewhere in your config, without redefining it, due to `opts_extend`
+        sources = {
+          default = { 'lsp', 'path', 'snippets', 'buffer' },
+        },
+
+        -- (Default) Rust fuzzy matcher for typo resistance and significantly better performance
+        -- You may use a lua implementation instead by using `implementation = "lua"` or fallback to the lua implementation,
+        -- when the Rust fuzzy matcher is not available, by using `implementation = "prefer_rust"`
+        --
+        -- See the fuzzy documentation for more information
+        fuzzy = { implementation = "prefer_rust_with_warning" }
+      },
+      opts_extend = { "sources.default" }
+    }
 }
