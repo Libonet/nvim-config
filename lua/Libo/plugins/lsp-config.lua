@@ -10,7 +10,7 @@ return {
         event = { 'BufReadPre', 'BufNewFile' },
         config = function()
             require("mason-lspconfig").setup({
-                ensure_installed = { "lua_ls", "clangd", "pyright" },
+                ensure_installed = { "lua_ls", "clangd", "basedpyright" },
             })
         end,
     },
@@ -20,27 +20,32 @@ return {
         event = { 'BufReadPre', 'BufNewFile' },
 
         config = function()
-            local lspconfig = require("lspconfig")
+            local lspconfig = vim.lsp.config
             local blink = require("blink.cmp")
 
-            lspconfig.lua_ls.setup({
+            lspconfig('lua_ls', {
                 capabilities = blink.get_lsp_capabilities(),
             })
-            lspconfig.clangd.setup({
-                cmd = {
-                    vim.fn.stdpath("data") .. "/mason/bin/clangd",
-                    "--background-index", "--cross-file-rename", "--header-insertion=never"
-                },
-                capabilities = blink.get_lsp_capabilities(),
-            })
-            lspconfig.hls.setup({
+            lspconfig('hls', {
                 filetypes = { 'haskell', 'lhaskell', 'cabal' },
             })
-            lspconfig.elp.setup({
+            lspconfig('elp', {
                 capabilities = blink.get_lsp_capabilities(),
                 filetypes = { 'erl' },
             })
-            lspconfig.pyright.setup({})
+            lspconfig('pyright', {})
+            lspconfig('ruby_lsp', {
+                init_options = {
+                    formatter = 'standard',
+                    linters = { 'standard' },
+                },
+            })
+
+            vim.lsp.enable('lua_ls')
+            vim.lsp.enable('hls')
+            vim.lsp.enable('elp')
+            vim.lsp.enable('pyright')
+            vim.lsp.enable('ruby_lsp')
 
             vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
             vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
